@@ -1,173 +1,34 @@
-RetailGenius – Customer Churn Prediction
+# RetailGenius: Customer Churn Analysis
 
-## 📌 Project Overview
+A learning project exploring a churn-prediction workflow and model explainability with Python, scikit-learn, MLflow, and SHAP.
 
-RetailGenius is a machine learning project designed to **predict customer churn** using historical customer data.
-The goal of this project is not only to build an accurate predictive model, but also to ensure **model transparency and explainability** using Explainable AI (XAI) techniques.
+> **Repository status:** This public snapshot is incomplete and is not currently runnable end to end. It contains preprocessing and SHAP explanation scripts, but their referenced configuration and training components, dependency manifest, and sample data are not included. No model-performance results are published.
 
-The project follows a **production-style ML pipeline**, including data preprocessing, model training, experiment tracking with MLflow, and model explainability using SHAP.
+## Current implementation
 
----
+- Preprocessing expects a `Target_Churn` column, maps common yes/no and true/false labels to 1/0, removes duplicate rows and fully empty columns, and writes a Parquet dataset.
+- The explainability script loads an MLflow model from `MODEL_URI`, applies the model's preprocessing pipeline, and writes SHAP summary and beeswarm plots.
+- Input data and trained model artifacts are not committed.
 
-## 🎯 Objectives
+## Repository contents
 
-* Predict whether a customer is likely to churn
-* Track experiments and models using MLflow
-* Explain model predictions using SHAP
-* Provide business-relevant insights from model explanations
-
----
-
-## 🗂️ Project Structure
-
-```
-retailgenius-churn-prediction/
-│
-├── data/
-│   ├── raw/                # Raw input dataset (CSV)
-│   └── processed/          # Processed dataset (Parquet)
-│
+```text
+.
 ├── src/
-│   ├── config.py           # Paths and configuration
 │   ├── data_preprocessing.py
-│   ├── feature_engineering.py
-│   ├── train.py            # Model training + MLflow logging
-│   ├── predict.py          # Inference script
-│   └── shap_explain.py     # SHAP explainability
-│
-├── reports/
-│   ├── shap_summary.png
-│   └── shap_beeswarm.png
-│
-├── notebooks/              # (Optional) Exploratory notebooks
-├── models/                 # Saved models (if any)
-├── requirements.txt        # Python dependencies
-└── README.md               # Project documentation
+│   └── shap_explain.py
+├── .gitignore
+└── README.md
 ```
 
----
+## What is needed to reproduce the workflow
 
-## 📊 Dataset Description
+The current scripts depend on modules and artifacts that are not present in this repository snapshot, including `src.config`, a trained MLflow model, and the data paths configured by the project. A dependency file and an authorized sample dataset are also needed before a clean setup and end-to-end run can be documented.
 
-The dataset contains customer-level information such as:
+## Responsible reporting
 
-* Demographics (Age, Gender)
-* Financial metrics (Annual Income, Total Spend)
-* Behavioral metrics (Purchases, Returns, Support Contacts)
-* Engagement metrics (Satisfaction Score, Last Purchase)
-* Marketing features (Email Opt-In, Promotion Response)
-* Target variable: **Target_Churn**
+This repository does not currently publish model metrics, validation results, or business-impact claims. Add a versioned train/test split, baseline comparison, and evaluation report before presenting predictive performance.
 
-The target column is renamed to `churn` during preprocessing.
+## Technologies explored
 
----
-
-## ⚙️ Setup Instructions
-
-### 1️⃣ Clone the repository
-
-```bash
-git clone https://github.com/Dileep45817/retailgenius-churn-prediction.git
-cd retailgenius-churn-prediction
-```
-
-### 2️⃣ Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3️⃣ Add dataset
-
-Place the dataset in:
-
-```bash
-data/raw/churn.csv
-```
-
----
-
-## 🧪 Running the Pipeline
-
-### Step 1: Data Preprocessing
-
-```bash
-python -m src.data_preprocessing
-```
-
-### Step 2: Train the Model
-
-```bash
-python -m src.train
-```
-
-This step:
-
-* Trains a Random Forest classifier
-* Logs metrics and model artifacts to MLflow
-
-### Step 3: Launch MLflow UI
-
-```bash
-mlflow ui
-```
-
-Access at:
-👉 `http://127.0.0.1:5000`
-
----
-
-## 🔍 Model Explainability (SHAP)
-
-### Step 4: Set Model URI
-
-Copy the **Run ID** from MLflow UI and set:
-
-```bash
-export MODEL_URI="runs:/<RUN_ID>/model"
-```
-
-### Step 5: Generate SHAP Plots
-
-```bash
-python -m src.shap_explain
-```
-
-### Generated Outputs
-
-* `shap_summary.png` – Global feature importance
-* `shap_beeswarm.png` – Feature impact distribution
-
-These plots provide **global interpretability** of the churn model.
-
----
-
-## 🧠 Explainability Notes
-
-* SHAP summary and beeswarm plots were used as they are **stable and reliable**
-* Local explanation plots (waterfall, force, dependence) were excluded due to instability with one-hot encoded features in tree-based models
-* This approach follows SHAP best practices
-
----
-
-## 🛠️ Technologies Used
-
-* Python
-* Pandas, NumPy
-* Scikit-learn
-* MLflow
-* SHAP
-* Matplotlib
-
----
-
-## 📈 Business Insights
-
-The explainability analysis shows that churn is primarily influenced by:
-
-* Customer satisfaction score
-* Number of support interactions
-* Inactivity period
-* Customer tenure
-
-
+Python · pandas · scikit-learn · MLflow · SHAP · Matplotlib
